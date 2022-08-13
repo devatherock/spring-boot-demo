@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://testuser:testpwd@localhost:27017/testdb?authSource=admin
+management:
+  health:
+    mongo:
+      enabled: false
