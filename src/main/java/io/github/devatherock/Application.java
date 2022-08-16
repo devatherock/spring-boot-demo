@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -26,15 +25,28 @@ public class Application {
     @ConditionalOnProperty(name = "env.name", havingValue = "dev")
     public Resource resourceDev() throws IOException {
         Resource resource = new ClassPathResource("logback-dev.xml");
-        LOGGER.info(Files.readString(resource.getFile().toPath()));
-        
+        LOGGER.info("Dev resource: {}", Files.readString(resource.getFile().toPath()));
+
         return resource;
     }
 
     @Bean
-    @ConditionalOnMissingBean
+    public Resource resourceDefault(@Value("file:logback.xml") Resource inputResource) {
+        Resource resource = null;
+
+        if (inputResource.exists()) {
+            resource = inputResource;
+        } else {
+            resource = new ClassPathResource("logback-dev.xml");
+        }
+
+        return resource;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "env.name", havingValue = "stage")
     public Resource resourceStage(@Value("classpath:logback.xml") Resource resource) throws IOException {
-        LOGGER.info(Files.readString(resource.getFile().toPath()));
+        LOGGER.info("Stage resource: {}", Files.readString(resource.getFile().toPath()));
         return resource;
     }
 }
