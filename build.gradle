@@ -19,6 +19,12 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    implementation group: 'org.ehcache', name: 'ehcache'
+    implementation group: 'javax.cache', name: 'cache-api'
+
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1' // To read XML config
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.6' // To read XML config
 
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-groovy-3.0'
 }
