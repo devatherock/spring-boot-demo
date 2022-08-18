@@ -1,8 +1,8 @@
 plugins {
     id 'java'
     id 'groovy'
-    id 'org.springframework.boot' version '2.5.5'
-    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group = 'io.github.devatherock'
@@ -14,19 +14,23 @@ repositories {
 
 dependencies {
     def lombokVersion = '1.18.22'
+    def spockVersion = '2.1-groovy-3.0'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-groovy-3.0'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
+    testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
 }
 
 test {
     useJUnitPlatform()
     testLogging {
-        showStandardStreams = true
+        showStandardStreams = Boolean.getBoolean('all.logs')
+        events 'passed', 'failed'
     }
 }
 
