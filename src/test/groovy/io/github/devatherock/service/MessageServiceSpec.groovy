@@ -27,17 +27,12 @@ class MessageServiceSpec extends Specification {
         service.getMessage(id)
 
         then:
-        service.callCounter == 1
-    }
+        service.callCounter == expectedResult
 
-    void 'test get message 2'() {
-        given:
-        String id = 'hello'
-
-        when:
-        service.getMessage(id)
-
-        then:
-        service.callCounter == 2
+        where:
+        expectedResult << [
+            1,
+            2
+        ]
     }
 }
