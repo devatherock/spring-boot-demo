@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     def lombokVersion = '1.18.22'
+    def spockVersion = '2.1-groovy-3.0'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
@@ -26,13 +27,16 @@ dependencies {
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1' // To read XML config
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.6' // To read XML config
 
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-groovy-3.0'
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
+    testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
     testLogging {
-        showStandardStreams = true
+        showStandardStreams = Boolean.getBoolean('all.logs')
+        events 'passed', 'failed'
     }
 }
 
