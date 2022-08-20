@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.devatherock.entities.Message;
 import io.github.devatherock.service.MessageService;
 import io.github.devatherock.util.CacheUtil;
-import io.micrometer.core.instrument.MeterRegistry;
 
 @RestController
 public class MessageController {
@@ -17,11 +16,11 @@ public class MessageController {
     private MessageService service;
 
     @Autowired
-    private MeterRegistry meterRegistry;
+    private CacheUtil cacheUtil;
 
     @GetMapping("/messages/{id}")
     public Message getMessage(@PathVariable String id) {
-        CacheUtil.logCacheMetrics(meterRegistry);
+        cacheUtil.logCacheMetrics();
 
         return service.getMessage(id);
     }
