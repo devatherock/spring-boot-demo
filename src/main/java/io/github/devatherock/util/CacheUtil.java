@@ -31,10 +31,11 @@ public class CacheUtil {
     private Meter getMeter(String meterName, Map<String, String> tags) {
         return meterRegistry.getMeters().stream()
                 .filter(meter -> meter.getId().getName().equals(meterName) &&
-                        tags.entrySet().stream()
-                                .allMatch(inputTag -> meter.getId().getTags().stream()
-                                        .anyMatch(meterTag -> meterTag.getKey().equals(inputTag.getKey())
-                                                && meterTag.getValue().equals(inputTag.getValue()))))
+                        (tags.isEmpty()
+                                || tags.entrySet().stream()
+                                        .allMatch(inputTag -> meter.getId().getTags().stream()
+                                                .anyMatch(meterTag -> meterTag.getKey().equals(inputTag.getKey())
+                                                        && meterTag.getValue().equals(inputTag.getValue())))))
                 .findFirst()
                 .orElse(null);
     }
