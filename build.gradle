@@ -21,6 +21,7 @@ dependencies {
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'org.ehcache', name: 'ehcache'
     implementation group: 'javax.cache', name: 'cache-api'
 
