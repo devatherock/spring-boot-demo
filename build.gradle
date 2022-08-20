@@ -20,6 +20,9 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    implementation group: 'org.ehcache', name: 'ehcache'
+    implementation group: 'javax.cache', name: 'cache-api'
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
