@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CacheConfig {
 
+    /**
+     * @see <a href="https://www.ehcache.org/documentation/3.10/107.html#cache-level-configuration">docs</a>
+     */
     @Bean
     public CacheManager ehCacheManager() {
         CacheConfiguration<SimpleKey, String> cacheConfig = CacheConfigurationBuilder
