@@ -24,6 +24,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
     testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy-json', version: '3.0.16'
 }
 
 test {
