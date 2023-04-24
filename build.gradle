@@ -21,9 +21,10 @@ dependencies {
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation group: 'org.postgresql', name: 'postgresql'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.11'
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testImplementation group: 'com.h2database', name: 'h2'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
     testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
 }
