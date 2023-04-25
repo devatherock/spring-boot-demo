@@ -5,9 +5,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
+import org.springframework.test.context.TestPropertySource
 import spock.lang.Specification
 
 @SpringBootTest
+@TestPropertySource(properties = 'jpa.enabled=false')
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration)
 class ApplicationSpec extends Specification {
 
