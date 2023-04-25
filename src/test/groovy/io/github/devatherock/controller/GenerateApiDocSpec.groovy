@@ -4,19 +4,22 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import spock.lang.Specification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest
+@AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 class GenerateApiDocSpec extends Specification {
 
     @Autowired
-    TestRestTemplate restTemplate
+    MockMvc mockMvc
 
     @Autowired
     ObjectMapper objectMapper
@@ -26,7 +29,8 @@ class GenerateApiDocSpec extends Specification {
         Files.deleteIfExists(Paths.get('api-spec.json'))
 
         when:
-        String apiSpec = restTemplate.getForObject('/v3/api-docs', String)
+        String apiSpec = mockMvc.perform(MockMvcRequestBuilders.get('/v3/api-docs'))
+            .andReturn().response.contentAsString
 
         then:
         def json = objectMapper.readValue(apiSpec, Map)
