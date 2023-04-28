@@ -1,11 +1,10 @@
 package io.github.devatherock.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
 
+import io.github.devatherock.config.WebClientConfig.BingService;
+import io.github.devatherock.config.WebClientConfig.GoogleService;
 import io.github.devatherock.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,29 +14,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class HelloController {
     private final TimeService timeService;
-    
-    @Autowired
-    @Qualifier("accountsClient")
-    private WebClient accountsClient;
-    
-    @Autowired
-    @Qualifier("payrollClient")
-    private WebClient payrollClient;
+    private final GoogleService googleService;
+    private final BingService bingService;
 
     @GetMapping("/hello")
     public String sayHello() {
-    	accountsClient
+    	googleService.getClient()
     		.get()
-    		.uri("https://www.google.com/")
+    		.uri("/")
     		.exchangeToMono((response) -> {
     			LOGGER.info("Response class: " + response.getClass().getName());
     			return response.bodyToMono(String.class);
     		})
     		.block();
     	
-    	payrollClient
+    	bingService.getClient()
 			.get()
-			.uri("https://www.bing.com/")
+			.uri("/")
 			.exchangeToMono((response) -> {
 				LOGGER.info("Response class: " + response.getClass().getName());
 				return response.bodyToMono(String.class);
