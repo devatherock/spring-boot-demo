@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'groovy'
-    id 'org.springframework.boot' version '2.7.2'
+    id 'org.springframework.boot' version '3.0.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
@@ -20,6 +20,9 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-webflux') {
+    	exclude group: 'io.projectreactor.netty'
+    }
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
