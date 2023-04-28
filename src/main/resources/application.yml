@@ -1,0 +1,13 @@
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessProbe
+spring:
+  data:
+    mongodb:
+      uri: mongodb://testuser:testpwd@localhost:27017/testdb?authSource=admin                 
