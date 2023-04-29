@@ -1,0 +1,23 @@
+type Query {
+  getValue: StringApiResponse
+}
+
+type StringApiResponse {
+  statusCode: String!
+  message: String!
+  timestamp: String!
+  payload: Payload
+}
+
+type Payload {
+  logo: String!
+  name: LanguageSpecificContent!
+  copyrightText: LanguageSpecificContent!
+  help: String!
+  termsAndCondition: String!
+}
+
+type LanguageSpecificContent {
+  en: String!
+  ja: String!
+}
