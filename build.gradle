@@ -20,6 +20,7 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'com.google.apis', name: 'google-api-services-calendar', version: 'v3-rev411-1.25.0'
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
