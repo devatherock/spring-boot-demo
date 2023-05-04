@@ -5,8 +5,23 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{10} - %msg%n</pattern>
         </encoder>
     </appender>
+    <appender name="IbkrRollingFile"
+      class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOGS}/ibkr.log</file>
+	    <encoder
+	        class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	      <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+	    </encoder>
+	
+	    <rollingPolicy
+	        class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+	      <fileNamePattern>${LOGS}/ibkr-%d{yyyy-MM-dd-HH-mm}.%i.log</fileNamePattern>
+	      <maxFileSize>1KB</maxFileSize>
+	    </rollingPolicy>
+	</appender>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="IbkrRollingFile" />
     </root>
 </configuration>
