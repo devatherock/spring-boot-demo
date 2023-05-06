@@ -2,9 +2,8 @@ package io.github.devatherock.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import io.github.devatherock.config.WebClientConfig.BingService;
-import io.github.devatherock.config.WebClientConfig.GoogleService;
 import io.github.devatherock.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class HelloController {
     private final TimeService timeService;
-    private final GoogleService googleService;
-    private final BingService bingService;
+    private final WebClient webClient;
 
     @GetMapping("/hello")
     public String sayHello() {
-    	googleService.getClient()
+    	webClient
     		.get()
     		.uri("/")
     		.exchangeToMono((response) -> {
@@ -27,16 +25,7 @@ public class HelloController {
     			return response.bodyToMono(String.class);
     		})
     		.block();
-    	
-    	bingService.getClient()
-			.get()
-			.uri("/")
-			.exchangeToMono((response) -> {
-				LOGGER.info("Response class: " + response.getClass().getName());
-				return response.bodyToMono(String.class);
-			})
-			.block();
-    		
+
         return "Hello at " + timeService.getTime();
     }
 
