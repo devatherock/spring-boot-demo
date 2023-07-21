@@ -33,3 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 /.gradle/
+dependency-reduced-pom.xml
+springbootdemo
+springbootdemo.build_artifacts.txt
