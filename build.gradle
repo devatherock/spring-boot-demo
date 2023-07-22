@@ -1,43 +1,175 @@
 plugins {
-    id 'java'
-    id 'groovy'
-    id 'org.springframework.boot' version '2.7.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.3.12.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'net.saliman.properties' version '1.4.6'
+    id 'java-library'
+    id 'maven-publish'
 }
 
-group = 'io.github.devatherock'
-version = '0.0.1-SNAPSHOT'
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    all*.exclude module: 'slf4j-reload4j'
 }
 
 dependencies {
     def lombokVersion = '1.18.22'
-    def spockVersion = '2.1-groovy-3.0'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-
+    
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
-    testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
-}
+    api 'com.squareup.okhttp:okhttp:2.7.5'
 
-test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = Boolean.getBoolean('all.logs')
-        events 'passed', 'failed'
+    api 'org.bouncycastle:bcprov-jdk15on:1.70'
+    api 'org.springframework:spring-messaging'
+    api('org.springframework:spring-context') {
+        exclude group: 'commons-logging'
     }
-}
+    api 'org.springframework:spring-jdbc'
+    api('org.springframework.data:spring-data-hadoop-hbase:2.5.0.RELEASE') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'io.netty', module: 'netty'
+        exclude group: 'io.netty', module: 'netty-all'
+        exclude group: 'xerces', module: 'xercesImpl'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-hdfs'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-yarn-server-nodemanager'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-mapreduce-client-core'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-mapper-asl'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.avro', module: 'avro'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-common'
+        exclude group: 'org.apache.commons', module: 'commons-compress'
+        exclude group: 'org.springframework', module: 'spring-context'
+        exclude group: 'org.springframework', module: 'spring-aop'
+        exclude group: 'org.springframework', module: 'spring-expression'
+        exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+        exclude group: 'org.springframework', module: 'spring-core'
+        exclude group: 'org.springframework', module: 'spring-beans'
+        exclude group: 'org.springframework', module: 'spring-beans'
+        exclude group: 'javax.xml.bind', module: 'jaxb-api'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-core-asl'
+        exclude group: 'org.mortbay.jetty', module: 'jetty-util'
+        exclude group: 'org.springframework', module: 'spring-messaging'
+    }
+    api 'org.springframework:spring-webmvc'
+    api 'org.springframework:spring-web'
+    api 'org.springframework:spring-beans'
 
-jar {
-    enabled = false
-}
+    api('io.searchbox:jest:6.3.1') {
+        exclude module: 'org.slf4j:slf4j-api'
+    }
+    api 'io.searchbox:jest-common:6.3.1'
+    api('org.elasticsearch:elasticsearch:7.3.1') {
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+        exclude group: 'org.yaml', module: 'snakeyaml'
+        exclude group: 'com.fasterxml.jackson.dataformat', module: 'jackson-dataformat-cbor'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+    }
+    api 'com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.6.6'
+    api 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0'
+    api 'org.elasticsearch.client:elasticsearch-rest-client:7.16.1'
+    api('org.elasticsearch.client:elasticsearch-rest-client-sniffer:7.16.1') {
+        exclude group: 'om.fasterxml.jackson.core', module: 'jackson-core'
+    }
+    api 'org.yaml:snakeyaml:1.26'
+    api 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+    api 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.14.2'
+    api 'com.fasterxml.jackson.core:jackson-annotations:2.12.0'
+    api 'org.json:json:20230227'
+    api 'net.sf.supercsv:super-csv:2.2.0'
+    api('org.apache.hadoop:hadoop-mapreduce-client-core:3.3.6') {
+        exclude group: 'log4j', module: 'log4j'
+    }
+    api('org.apache.hadoop:hadoop-yarn-server-nodemanager:3.3.6') {
+        exclude group: 'log4j', module: 'log4j'
+    }
+    api('org.apache.hadoop:hadoop-hdfs:3.3.6') {
+        exclude group: 'log4j', module: 'log4j'
 
-bootRun {
-    systemProperties(System.properties)
+    }
+    api('org.apache.hadoop:hadoop-common:3.3.6') {
+        exclude group: 'jdk.tools', module: 'jdk.tools'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-mapper-asl'
+        exclude group: 'commons-beanutils', module: 'commons-beanutils'
+        exclude group: 'xerces', module: 'xercesImpl'
+        exclude group: 'commons-beanutils', module: 'commons-beanutils-core'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'org.apache.zookeeper', module: 'zookeeper'
+        exclude group: 'org.apache.commons', module: 'commons-compress'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+        exclude group: 'javax.xml.bind', module: 'jaxb-api'
+        exclude group: 'commons-codec', module: 'commons-codec'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-jaxrs'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-xc'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-core-asl'
+        exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'commons-collections', module: 'commons-collections'
+        exclude group: 'org.apache.httpcomponents', module: 'httpcore'
+        exclude group: 'org.yaml', module: 'snakeyaml'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    api('org.apache.hbase:hbase-client:2.5.5') {
+        exclude group: 'jdk.tools', module: 'jdk.tools'
+        exclude group: 'org.codehaus.jackson', module: 'jackson-mapper-asl'
+        exclude group: 'io.netty', module: 'netty-all'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-mapreduce-client-core'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-common'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'commons-codec', module: 'commons-codec'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'log4j', module: 'log4j'
+        exclude group: 'com.mapr.hadoop', module: 'maprfs'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'org.apache.hadoop', module: 'hadoop-auth'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+    api 'org.codehaus.jackson:jackson-mapper-asl:0.9.7'
+    api('org.apache.hbase:hbase-common:2.5.5') {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'commons-codec', module: 'commons-codec'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    api 'org.apache.commons:commons-dbcp2:2.1.1'
+    api 'commons-codec:commons-codec:1.4'
+    api 'mysql:mysql-connector-java:8.0.31'
+    api 'org.springframework:spring-orm'
+    api 'org.hibernate:hibernate-core:5.4.31.Final'
+    api('commons-fileupload:commons-fileupload:1.5') {
+        exclude group: 'commons-io', module: 'commons-io'
+    }
+    api 'org.apache.poi:poi-ooxml:3.17'
+    api 'org.apache.commons:commons-compress:1.22'
+    api 'org.hibernate:hibernate-envers:5.4.31.Final'
+    api('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2') {
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+        exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+    }
+    
+    testImplementation 'org.springframework:spring-test'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.4.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.7.0'
+    testImplementation 'org.junit.platform:junit-platform-engine:1.7.0'
+    testImplementation 'org.junit.platform:junit-platform-commons:1.7.0'
+    testImplementation 'org.mockito:mockito-core:3.5.13'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.5.13'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.7'
 }
