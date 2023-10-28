@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+  email-sender:
+    image: devatherock/email-sender:latest
+    environment:
+      EMAILSENDER_SMTP_EMBEDDED: 'true'
+    ports:
+     - 8081:8080
