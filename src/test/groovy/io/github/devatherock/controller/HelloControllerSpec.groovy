@@ -23,5 +23,6 @@ class HelloControllerSpec extends Specification {
         then:
         response.statusCodeValue == 400
         response.body.size() == 1
+        response.body[0] == 'The supplied car is invalid'
     }
 }

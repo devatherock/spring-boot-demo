@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ ElementType.TYPE })
 @Constraint(validatedBy = CarValidator.class)
 public @interface CarConstraint {
-    String message() default "The supplier car is invalid";
+    String message() default "The supplied car is invalid";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
