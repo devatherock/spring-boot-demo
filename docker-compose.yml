@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:14.3
+    environment:
+      POSTGRES_PASSWORD: testpwd
+      POSTGRES_USER: testuser
+      POSTGRES_DB: testdb
+    ports:
+      - 5432:5432
