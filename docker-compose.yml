@@ -1,0 +1,16 @@
+services:
+  vault:
+    image: hashicorp/vault:1.15
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: 'my-vault-token-id'
+    ports:
+      - '8200:8200'
+
+  postgres:
+    image: postgres:14.3
+    environment:
+      POSTGRES_PASSWORD: testpwd
+      POSTGRES_USER: testuser
+      POSTGRES_DB: testdb
+    ports:
+      - '5432:5432'

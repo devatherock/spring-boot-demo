@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: vault
+  cloud:
+    config:
+      name: spring-boot-demo
+      failFast: true
+      server:
+        bootstrap: true
+        vault:
+          host: localhost
+          port: 8200
+          token: my-vault-token-id
+          kvVersion: 2
