@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     def lombokVersion = '1.18.22'
-    def spockVersion = '2.1-groovy-3.0'
+    def spockVersion = '2.3-groovy-4.0'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
