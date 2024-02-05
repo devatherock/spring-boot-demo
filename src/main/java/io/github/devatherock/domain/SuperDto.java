@@ -1,5 +1,7 @@
 package io.github.devatherock.domain;
 
+import org.hibernate.annotations.Subselect;
+
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 
 @Entity
+@Subselect("select * from dogs") // To prevent creation of a super_dto table
 @NamedNativeQuery(
         name = "dog_names",
         query = "SELECT name from dogs",
