@@ -1,0 +1,3 @@
+server:
+  tomcat:
+    maxHttpFormPostSize: 10 MB
