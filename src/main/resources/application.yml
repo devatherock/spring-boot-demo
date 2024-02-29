@@ -1,0 +1,7 @@
+aws:
+  secretsmanager:
+    endpoint: http://localhost:4566
+spring:
+  config:
+    import:
+      - aws-secretsmanager:dev/CBusHA/Backend
